@@ -58,7 +58,7 @@ function Canvas() {
         min_x = 400
         max_x = 0
         oldMidpoint = midpoint
-        midpoint = min_y+((fontPoint/2) * (i+1))
+        midpoint = min_y+((fontPoint/2) * ((2*i)+1))
         JSON.parse(stringified)["lines"][0]["points"].forEach((item) =>{
           var x = item["x"]
           var y = item["y"]
@@ -72,10 +72,15 @@ function Canvas() {
         })
 
         var characterWidth = getTextWidth("abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890", "test")/108
+        var spaceWidth =     getTextWidth("                                                                                                            ", "test")/108
         var numChars = (max_x-min_x)/characterWidth
-        console.log(max_x-min_x)
-        console.log(midpoint)
-        tempTotalString = tempTotalString + output.substring(startPoint, (startPoint + numChars)) + "\n"
+        var numSpaces = (min_x)/spaceWidth
+
+        var spaceString = ""
+        for (var j = 0; j < numSpaces; j++){
+          spaceString += " "
+        }
+        tempTotalString = tempTotalString + spaceString + output.substring(startPoint, (startPoint + numChars)) + "\n"
         console.log(tempTotalString)
         console.log(output.substring(startPoint, (startPoint + numChars)))
         startPoint += numChars
