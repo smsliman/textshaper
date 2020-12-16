@@ -73,7 +73,7 @@ function Canvas() {
 
         var characterWidth = getTextWidth("abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890", "test")/108
         var spaceWidth =     getTextWidth("                                                                                                            ", "test")/108
-        var numChars = (max_x-min_x)/characterWidth
+        var numChars = 2*(max_x-min_x)/characterWidth
         var numSpaces = (min_x)/spaceWidth
 
         var spaceString = ""
@@ -92,7 +92,7 @@ function Canvas() {
   function getTextWidth(text, font){
 
     //temp
-    font = "bold 8pt arial"
+    font = "12pt arial"
 
     var testCanvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
     var context = testCanvas.getContext("2d");
