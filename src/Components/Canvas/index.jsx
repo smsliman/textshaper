@@ -17,8 +17,8 @@ function Canvas() {
   }
 
   const drawDots = (stringified) => {
-      var mainCanvas = document.getElementById('canvas');
-      var ctx = mainCanvas.getContext("2d")
+      // var mainCanvas = document.getElementById('canvas');
+      // var ctx = mainCanvas.getContext("2d")
       console.log(JSON.parse(stringified)["lines"][0]["points"])
       var max_x = 0
       var max_y = 0
@@ -41,7 +41,7 @@ function Canvas() {
         if (y < min_y){
           min_y = y
         }
-        ctx.fillRect(x, y, 10, 10);
+        // ctx.fillRect(x, y, 10, 10);
         count += 1
       })
       
@@ -108,10 +108,12 @@ function Canvas() {
   return (
     <div>
       <CanvasDraw style={{border:"1px solid #000000"}} canvasWidth={canvasSize} canvasHeight={canvasSize} ref={canvasDraw => setSaveableCanvas(canvasDraw)}/>
-      <canvas id="canvas" width={canvasSize} height={canvasSize} style={{border:"1px solid #000000"}}></canvas> <br />
+      {/* <canvas id="canvas" width={canvasSize} height={canvasSize} style={{border:"1px solid #000000"}}></canvas> <br /> */}
       <button onClick={() => saveImage()}>Save</button> <br />
       <input onChange = {(e) => handleInput(e)}></input>
-      <div className={styles.testFont} id="outputBox">{totalString}</div>
+      <div className={styles.testFont} id="outputBox">{totalString.split("\n").map((i,key) => {
+            return <div className={styles.display} key={key}>{i}</div>;
+      })}</div>
     </div>
 
   );
