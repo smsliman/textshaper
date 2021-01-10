@@ -13,31 +13,27 @@ function Canvas() {
 
   const canvasSize = 600
   const [saveableCanvas, setSaveableCanvas] = useState()
-  const [output, setOutput] = useState("")
-  const [totalString, setTotalString] = useState("")
   const [invert, setInvert] = useState(false)
   const [showOutput, setShowOutput] = useState(false)
   const [secondScreen, setSecondScreen] = useState(false)
 
-  const saveImage = () => {
-    var stringified = saveableCanvas.getSaveData()
-    console.log(stringified)
-    setTotalString(drawDots(stringified))
-    setShowOutput(true)
-  }
+  //output is the user string, totalString is the shaped string
+  const [output, setOutput] = useState("")
+  const [totalString, setTotalString] = useState("")
 
-  const drawDots = (stringified, outputTest) => {
 
+  const getShapedString = (stringified, outputTest) => {
+
+      //Strip newlines and groups of 3+ spacse
       outputTest = outputTest.replace(/([ ]{3,})|([\n])+/g, "")
-      // var mainCanvas = document.getElementById('canvas');
-      // var ctx = mainCanvas.getContext("2d")
-      console.log(JSON.parse(stringified)["lines"][0]["points"])
+
       var max_x = 0
       var max_y = 0
       var min_x = canvasSize
       var min_y = canvasSize
       var count = 0
 
+      //Get max and min y value (and first and last point no drawing, if that becomes needed)
       JSON.parse(stringified)["lines"][0]["points"].forEach((item) =>{
         if (count == 0){
           var firstPoint = [item["x"], item["y"]]
@@ -53,14 +49,22 @@ function Canvas() {
         if (y < min_y){
           min_y = y
         }
-        // ctx.fillRect(x, y, 10, 10);
         count += 1
+
+        //Code for drawing a visualization of the dots collected by the canvas
+        // var mainCanvas = document.getElementById('canvas');
+        // var ctx = mainCanvas.getContext("2d")
+        // ctx.fillRect(x, y, 10, 10);
       })
       
-      var outputBox = document.getElementById("outputBox")
+      //Code for reading font size from output box, likely needs to be reworked
+      //var outputBox = document.getElementById("outputBox")
       //var fontPointString = window.getComputedStyle(outputBox, null).getPropertyValue('font-size')
       //var fontPoint = parseInt(fontPointString.substring(0,2))
+
+      //Temp font stand in
       var fontPoint  = 12;
+
       var numSlices = (max_y-min_y)/fontPoint
       var totalSlices = (canvasSize)/fontPoint
       var midpoint = 0
@@ -68,12 +72,17 @@ function Canvas() {
       var startPoint = 0
       var tempTotalString = ""
 
+      //Algorithm for non-inverted shape
       if (!invert){
         for (var i = 0; i < numSlices; i++) {
+
+          //Reset variables and calculate midpoint of current and previous slice
           min_x = canvasSize
           max_x = 0
           oldMidpoint = midpoint
           midpoint = min_y+((fontPoint/2) * ((2*i)+1))
+
+          //Get max and min x values
           JSON.parse(stringified)["lines"][0]["points"].forEach((item) =>{
             var x = item["x"]
             var y = item["y"]
@@ -86,31 +95,43 @@ function Canvas() {
             }
           })
 
+          //Calculate sizes and amounts of characters and spacees
           var characterWidth = getTextWidth("abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890", "test")/108
           var spaceWidth =     getTextWidth("                                                                                                            ", "test")/108
           var numChars = 2*(max_x-min_x)/characterWidth
           var numSpaces = (min_x)/spaceWidth
 
+          //Create the appropriate amount of spaces
           var spaceString = ""
           for (var j = 0; j < numSpaces; j++){
             spaceString += " "
           }
+
+          //Append space string + appropriate amount of characters to old string
           tempTotalString = tempTotalString + spaceString + outputTest.substring(startPoint, (startPoint + numChars)) + "\n"
-          console.log(tempTotalString)
-          console.log(outputTest.substring(startPoint, (startPoint + numChars)))
+
+          //Mark our place in the input string
           startPoint += numChars
         }
+
+
         var extraSlices = min_y/fontPoint
         for (var j = 0; j < extraSlices; j++){
           tempTotalString = "\n" + tempTotalString
         }
     }
+
+    //Algorithm for inverted shape
     else{
       for (var i = 0; i < totalSlices; i++) {
+
+        //Reset variables and calculate midpoint of current and previous slice
         min_x = canvasSize
         max_x = 0
         oldMidpoint = midpoint
         midpoint = ((fontPoint/2) * ((2*i)+1))
+
+        //Get max and min x values
         JSON.parse(stringified)["lines"][0]["points"].forEach((item) =>{
           var x = item["x"]
           var y = item["y"]
@@ -123,6 +144,7 @@ function Canvas() {
           }
         })
 
+        //If there are no points in a slice, fill it with characters
         if (min_x == canvasSize && max_x == 0){
           var characterWidth = getTextWidth("abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890                       ", "test")/130
           var numChars = 2*(canvasSize/characterWidth)
@@ -131,23 +153,25 @@ function Canvas() {
         }
         else{
 
+          //Calculate sizes and amounts of characters and spacees
           var characterWidth = getTextWidth("abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890                       ", "test")/130
           var spaceWidth =     getTextWidth("                                                                                                            ", "test")/108
           var numSpaces = 2*(max_x-min_x)/spaceWidth
           var numChars1 = 2*(min_x)/characterWidth
           var numChars2 = 2*(canvasSize - max_x)/characterWidth
-          console.log(max_x)
-          console.log(numChars2)
-          console.log(characterWidth)
 
+          //Create the appropriate amount of spaces
           var spaceString = ""
           for (var j = 0; j < numSpaces; j++){
             spaceString += " "
           }
+
+          //Append first set of characters and spaces
           tempTotalString = tempTotalString + outputTest.substring(startPoint, (startPoint + numChars1)) + spaceString
           startPoint += numChars1
+
+          //Append second set of characters to go AFTER spaces
           tempTotalString = tempTotalString + outputTest.substring(startPoint, (startPoint + numChars2)) + "\n"
-          console.log(tempTotalString)
           startPoint += numChars2
       }
       }
@@ -157,7 +181,7 @@ function Canvas() {
 
   function getTextWidth(text, font){
 
-    //temp
+    //Temp font stand in
     font = "12pt arial"
 
     var testCanvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
@@ -169,17 +193,15 @@ function Canvas() {
 
   const handleInput = (e) => {
     setOutput(e.target.value)
-    console.log(e.target.value)
-    var stringified = saveableCanvas.getSaveData()
-    console.log(stringified)
-    setTotalString(drawDots(stringified, e.target.value))
+    var stringifiedPoints = saveableCanvas.getSaveData()
+    setTotalString(getShapedString(stringifiedPoints, e.target.value))
     setShowOutput(true)
   }
 
-  const handleInvert = (e) => {
+  const handleInvert = () => {
     setInvert(!invert)
-    var stringified = saveableCanvas.getSaveData()
-    setTotalString(drawDots(stringified, output))
+    var stringifiedPoints = saveableCanvas.getSaveData()
+    setTotalString(getShapedString(stringifiedPoints, output))
     setShowOutput(true)
   }
 
@@ -257,9 +279,6 @@ function Canvas() {
             return <div className={styles.display} key={key}>{i}</div>;
       })}</div> */}
     </Row>
-  
-    
-  
     </Container>
 
   );

@@ -2,18 +2,28 @@
   font-family: 'Duo';
   src: local('Duo'), url(../../Assets/Fonts/DINBold.woff) format('woff');
 }
+@keyframes bounce {
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes fadeInUp {
+  from {
+      transform: translate3d(0,80px,0);
+      opacity: 0;
+  }
+
+  to {
+      transform: translate3d(0,0,0);
+      opacity: 1
+  }
+}
 .testFont {
   font-family: 'Arial';
   font-size: 12px;
 }
+//output and display are for the test output box
 .display{
   white-space: pre;
-}
-.mainCanvas{
-  border: 1px solid #000000;
-  margin-top: 100px;
-  border-radius: 20px;
-  animation: fadeInUp 2s;
 }
 .output{
   margin-top: 100px;
@@ -24,10 +34,11 @@
   font-family: 'Arial';
   font-size: 12px;
 }
-.submitButton{
-  margin: auto;
-  margin-left: auto;
-  margin-right: auto;
+.mainCanvas{
+  border: 1px solid #000000;
+  margin-top: 100px;
+  border-radius: 20px;
+  animation: fadeInUp 2s;
 }
 .inputField{
   margin-top: 100px;
@@ -39,7 +50,6 @@
   font-family: 'Arial';
   font-size: 12px;
   white-space: nowrap;
-  overflow: scroll;
   resize: none;
 }
 .circleButton{
@@ -48,40 +58,7 @@
   width: 70px;
   height: 70px;
   filter: drop-shadow(0 0 0.75rem white);
-  animation: fadeInUp 2s, bounce2 1.6s infinite;
-}
-@keyframes bounce2 {
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-@keyframes bounce {
-  0% {
-transform: scale(1,1) translate(0px, 0px);
-}
-
-30%{
-transform: scale(1,0.8) translate(0px, 10px); 
-}
-
-75%{
-transform: scale(1,1.1) translate(0px, -25px); 
-}
-
-100% {
-transform: scale(1,1) translate(0px, 0px);
-}
-}
-
-@keyframes fadeInUp {
-  from {
-      transform: translate3d(0,80px,0);
-      opacity: 0;
-  }
-
-  to {
-      transform: translate3d(0,0,0);
-      opacity: 1
-  }
+  animation: fadeInUp 2s, bounce 1.6s infinite;
 }
 .invertButton{
   border-radius: 5px;
@@ -96,13 +73,17 @@ transform: scale(1,1) translate(0px, 0px);
   display: flex;
   justify-content: center;
 }
+.colCenter1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .header{
 margin-top: 20px;
 font-size: 50px;
 font-family: Duo;
 animation: fadeInUp 2s;
 }
-
 .subHeader{
 font-size: 30px;
 font-family: Duo;
@@ -113,10 +94,5 @@ div {
     -moz-transition: all 1.0s ease, margin 0.3s ease;
     -o-transition: all 1.0s ease, margin 0.3s ease;
     transition: all 1.0s ease, margin 0.3s ease;
-}
-.colCenter1{
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
