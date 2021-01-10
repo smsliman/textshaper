@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'Duo';
+  src: local('Duo'), url(../../Assets/Fonts/DINBold.woff) format('woff');
+}
 .testFont {
   font-family: 'Arial';
   font-size: 12px;
@@ -33,6 +37,9 @@
   border-radius: 20px;
   font-family: 'Arial';
   font-size: 12px;
+  white-space: nowrap;
+  overflow: scroll;
+  resize: none;
 }
 .circleButton{
   border-radius: 50%;
@@ -40,23 +47,38 @@
   height: 70px;
   filter: drop-shadow(0 0 0.75rem white);
 }
-.invert{
+.invertButton{
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-family: Duo;
+  float:right;
 }
-.invertText{
+.bigRow{
+  margin-top: -60px;
 }
 .colCenter{
   display: flex;
   justify-content: center;
 }
+.header{
+margin-top: 20px;
+font-size: 40px;
+font-family: Duo;
+}
 
+.subHeader{
+font-size: 25px;
+font-family: Duo;
+}
 div {
-    -webkit-transition: width 0.3s ease, margin 0.3s ease;
-    -moz-transition: width 0.3s ease, margin 0.3s ease;
-    -o-transition: width 0.3s ease, margin 0.3s ease;
-    transition: width 0.3s ease, margin 0.3s ease;
+    -webkit-transition: all 1.0s ease, margin 0.3s ease;
+    -moz-transition: all 1.0s ease, margin 0.3s ease;
+    -o-transition: all 1.0s ease, margin 0.3s ease;
+    transition: all 1.0s ease, margin 0.3s ease;
 }
 .colCenter1{
   display: flex;
   justify-content: center;
   align-items: center;
 }
+

@@ -165,7 +165,6 @@ function Canvas() {
   const handleInput = (e) => {
     setOutput(e.target.value)
     console.log(e.target.value)
-  
     var stringified = saveableCanvas.getSaveData()
     console.log(stringified)
     setTotalString(drawDots(stringified, e.target.value))
@@ -174,6 +173,18 @@ function Canvas() {
 
   const handleInvert = (e) => {
     setInvert(!invert)
+    var stringified = saveableCanvas.getSaveData()
+    setTotalString(drawDots(stringified, output))
+    setShowOutput(true)
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(totalString).then(function() {
+      console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+
   }
 
   const handleSecondScreen = () => {
@@ -183,6 +194,34 @@ function Canvas() {
   return (
     <Container fluid>
       <Row>
+        <Col className={styles.colCenter1}>
+          {!secondScreen &&
+          <div className={styles.header}>
+          Welcome to Textshaper.io!
+          </div>
+          }
+          {secondScreen &&
+          <div className={styles.header}>
+          Now, enter your text in the box on the right
+          </div>
+          }
+        </Col>
+      </Row>
+      <Row>
+        <Col className={styles.colCenter1}>
+          {!secondScreen &&
+          <div className={styles.subHeader}>
+          Draw your shape, slowly, below
+        </div>
+        }
+        {secondScreen &&
+          <div className={styles.subHeader}>
+          And that's all!
+        </div>
+        }
+        </Col>
+      </Row>
+      <Row className={styles.bigRow}>
       <Col lg={secondScreen ? 0 : 3}>
       </Col>
       <Col className={styles.colCenter}>
@@ -195,7 +234,12 @@ function Canvas() {
           <button className={styles.circleButton} onClick={() => handleSecondScreen()}></button>
         }
         {showOutput && secondScreen &&
+          <div>
           <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}  value={totalString}></textarea>
+          <br />
+          <button className={styles.invertButton} onClick = {() => handleCopy()}>Copy to Clipboard</button>
+          <button className={styles.invertButton} onClick = {() => handleInvert()}>Invert</button>
+          </div>
         }
         {!showOutput && secondScreen &&
           <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}></textarea>
