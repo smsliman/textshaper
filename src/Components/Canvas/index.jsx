@@ -6,19 +6,22 @@ import styles from "./main.module.scss";
 
 function Canvas() {
 
-  const canvasSize = 400
+  const canvasSize = 600
   const [saveableCanvas, setSaveableCanvas] = useState()
   const [output, setOutput] = useState("")
   const [totalString, setTotalString] = useState("")
   const [invert, setInvert] = useState(false)
+  const [showOutput, setShowOutput] = useState(false)
+  const [secondScreen, setSecondScreen] = useState(true)
 
   const saveImage = () => {
     var stringified = saveableCanvas.getSaveData()
     console.log(stringified)
     setTotalString(drawDots(stringified))
+    setShowOutput(true)
   }
 
-  const drawDots = (stringified) => {
+  const drawDots = (stringified, outputTest) => {
       // var mainCanvas = document.getElementById('canvas');
       // var ctx = mainCanvas.getContext("2d")
       console.log(JSON.parse(stringified)["lines"][0]["points"])
@@ -48,8 +51,9 @@ function Canvas() {
       })
       
       var outputBox = document.getElementById("outputBox")
-      var fontPointString = window.getComputedStyle(outputBox, null).getPropertyValue('font-size')
-      var fontPoint = parseInt(fontPointString.substring(0,2))
+      //var fontPointString = window.getComputedStyle(outputBox, null).getPropertyValue('font-size')
+      //var fontPoint = parseInt(fontPointString.substring(0,2))
+      var fontPoint  = 12;
       var numSlices = (max_y-min_y)/fontPoint
       var totalSlices = (canvasSize)/fontPoint
       var midpoint = 0
@@ -84,9 +88,9 @@ function Canvas() {
           for (var j = 0; j < numSpaces; j++){
             spaceString += " "
           }
-          tempTotalString = tempTotalString + spaceString + output.substring(startPoint, (startPoint + numChars)) + "\n"
+          tempTotalString = tempTotalString + spaceString + outputTest.substring(startPoint, (startPoint + numChars)) + "\n"
           console.log(tempTotalString)
-          console.log(output.substring(startPoint, (startPoint + numChars)))
+          console.log(outputTest.substring(startPoint, (startPoint + numChars)))
           startPoint += numChars
         }
         var extraSlices = min_y/fontPoint
@@ -115,7 +119,7 @@ function Canvas() {
         if (min_x == canvasSize && max_x == 0){
           var characterWidth = getTextWidth("abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890                       ", "test")/130
           var numChars = 2*(canvasSize/characterWidth)
-          tempTotalString = tempTotalString + output.substring(startPoint, (startPoint + numChars)) + "\n"
+          tempTotalString = tempTotalString + outputTest.substring(startPoint, (startPoint + numChars)) + "\n"
           startPoint += numChars
         }
         else{
@@ -133,9 +137,9 @@ function Canvas() {
           for (var j = 0; j < numSpaces; j++){
             spaceString += " "
           }
-          tempTotalString = tempTotalString + output.substring(startPoint, (startPoint + numChars1)) + spaceString
+          tempTotalString = tempTotalString + outputTest.substring(startPoint, (startPoint + numChars1)) + spaceString
           startPoint += numChars1
-          tempTotalString = tempTotalString + output.substring(startPoint, (startPoint + numChars2)) + "\n"
+          tempTotalString = tempTotalString + outputTest.substring(startPoint, (startPoint + numChars2)) + "\n"
           console.log(tempTotalString)
           startPoint += numChars2
       }
@@ -158,6 +162,12 @@ function Canvas() {
 
   const handleInput = (e) => {
     setOutput(e.target.value)
+    console.log(e.target.value)
+  
+    var stringified = saveableCanvas.getSaveData()
+    console.log(stringified)
+    setTotalString(drawDots(stringified, e.target.value))
+    setShowOutput(true)
   }
 
   const handleInvert = (e) => {
@@ -171,26 +181,37 @@ function Canvas() {
       < CanvasDraw className = {styles.mainCanvas} style={{border:"1px solid #000000"}} canvasWidth={canvasSize} canvasHeight={canvasSize} ref={canvasDraw => setSaveableCanvas(canvasDraw)}/>
       </Col>
   
+      {showOutput && secondScreen &&
       <Col className={styles.colCenter}>
-        <textarea className={styles.inputField}onChange = {(e) => handleInput(e)}></textarea> <br />
+        <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}  value={totalString}></textarea> <br />
       </Col>
+      }
 
+      {!showOutput && secondScreen &&
+      <Col className={styles.colCenter}>
+      <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}></textarea> <br />
+      </Col>
+      }
+
+
+      {/* 
       <Col className={styles.colCenter}>
         <textarea id="outputBox" className={styles.output} value={totalString}></textarea>
-      </Col>
+      </Col> */}
       {/* <canvas id="canvas" width={canvasSize} height={canvasSize} style={{border:"1px solid #000000"}}></canvas> <br /> */}
-      <div className={styles.testFont} id="outputBox">{totalString.split("\n").map((i,key) => {
+      {/* <div className={styles.testFont} id="outputBox">{totalString.split("\n").map((i,key) => {
             return <div className={styles.display} key={key}>{i}</div>;
-      })}</div>
+      })}</div> */}
     </Row>
-    <Row>
+    {/* <Row>
       <Col className={styles.colCenter}>
       <Button className={styles.submitButton}onClick={() => saveImage()}>Save</Button> <br />
       </Col>
-    </Row>
-    <Row>
+    </Row> */}
+    
+    {/* <Row>
       <Col className={styles.colCenter}>
-      {/* <input className={styles.invert} type="checkbox" onChange = {(e) => handleInvert(e)}></input> <br /> */}
+      <input className={styles.invert} type="checkbox" onChange = {(e) => handleInvert(e)}></input> <br />
       <ButtonGroup toggle>
         <ToggleButton
           type="checkbox"
@@ -202,7 +223,7 @@ function Canvas() {
         </ToggleButton>
       </ButtonGroup>
       </Col>
-      </Row>
+    </Row> */}
     </Container>
 
   );
