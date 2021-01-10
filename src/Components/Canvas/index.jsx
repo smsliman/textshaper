@@ -12,7 +12,7 @@ function Canvas() {
   const [totalString, setTotalString] = useState("")
   const [invert, setInvert] = useState(false)
   const [showOutput, setShowOutput] = useState(false)
-  const [secondScreen, setSecondScreen] = useState(true)
+  const [secondScreen, setSecondScreen] = useState(false)
 
   const saveImage = () => {
     var stringified = saveableCanvas.getSaveData()
@@ -23,7 +23,7 @@ function Canvas() {
 
   const drawDots = (stringified, outputTest) => {
 
-      outputTest = outputTest.replace(/\n/g, "").replace(/ /g, "")
+      outputTest = outputTest.replace(/\n/g, "").replace(/([ ]{3,})/g, "")
       // var mainCanvas = document.getElementById('canvas');
       // var ctx = mainCanvas.getContext("2d")
       console.log(JSON.parse(stringified)["lines"][0]["points"])
@@ -176,31 +176,31 @@ function Canvas() {
     setInvert(!invert)
   }
 
+  const handleSecondScreen = () => {
+    setSecondScreen(true)
+  }
+
   return (
     <Container fluid>
       <Row>
+      <Col lg={secondScreen ? 0 : 3}>
+      </Col>
       <Col className={styles.colCenter}>
       < CanvasDraw className = {styles.mainCanvas} style={{border:"1px solid #000000"}} canvasWidth={canvasSize} canvasHeight={canvasSize} ref={canvasDraw => setSaveableCanvas(canvasDraw)}/>
       </Col>
 
-      {/* {!secondScreen &&
-        <Col className={styles.colCenter}>
-          <button className={styles.circleButton}></button>
+      
+        <Col className={styles.colCenter1} lg={secondScreen ? 6 : 3}>
+        {!secondScreen &&
+          <button className={styles.circleButton} onClick={() => handleSecondScreen()}></button>
+        }
+        {showOutput && secondScreen &&
+          <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}  value={totalString}></textarea>
+        }
+        {!showOutput && secondScreen &&
+          <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}></textarea>
+        }
         </Col>
-      } */}
-  
-      {showOutput && secondScreen &&
-      <Col className={styles.colCenter}>
-        <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}  value={totalString}></textarea> <br />
-      </Col>
-      }
-
-      {!showOutput && secondScreen &&
-      <Col className={styles.colCenter}>
-      <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}></textarea> <br />
-      </Col>
-      }
-
 
       {/* 
       <Col className={styles.colCenter}>

@@ -48,3 +48,15 @@
   display: flex;
   justify-content: center;
 }
+
+div {
+    -webkit-transition: width 0.3s ease, margin 0.3s ease;
+    -moz-transition: width 0.3s ease, margin 0.3s ease;
+    -o-transition: width 0.3s ease, margin 0.3s ease;
+    transition: width 0.3s ease, margin 0.3s ease;
+}
+.colCenter1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
