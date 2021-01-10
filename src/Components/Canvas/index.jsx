@@ -4,6 +4,11 @@ import {Container, Row, Col, Button, ButtonGroup, ToggleButton} from 'react-boot
 
 import styles from "./main.module.scss";
 
+import arrow from "../../Assets/Icons/arrow.svg"
+import flip1 from "../../Assets/Icons/flip1.svg"
+import flip2 from "../../Assets/Icons/flip2.svg"
+import copy from "../../Assets/Icons/copy.svg"
+
 function Canvas() {
 
   const canvasSize = 600
@@ -231,14 +236,14 @@ function Canvas() {
       
         <Col className={styles.colCenter1} lg={secondScreen ? 6 : 3}>
         {!secondScreen &&
-          <button className={styles.circleButton} onClick={() => handleSecondScreen()}></button>
+          <button className={styles.circleButton} onClick={() => handleSecondScreen()}><img src={arrow}></img></button>
         }
         {showOutput && secondScreen &&
           <div>
           <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}  value={totalString}></textarea>
           <br />
-          <button className={styles.invertButton} onClick = {() => handleCopy()}>Copy to Clipboard</button>
-          <button className={styles.invertButton} onClick = {() => handleInvert()}>Invert</button>
+          <button className={styles.invertButton} onClick = {() => handleCopy()}><img src={copy}></img>Copy to Clipboard</button>
+          <button className={styles.invertButton} onClick = {() => handleInvert()}><img src={invert ? flip1 : flip2}></img>Invert</button>
           </div>
         }
         {!showOutput && secondScreen &&

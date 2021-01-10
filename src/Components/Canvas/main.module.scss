@@ -46,12 +46,15 @@
   width: 70px;
   height: 70px;
   filter: drop-shadow(0 0 0.75rem white);
+  position: relative;
+  top: 10px;
+  right: 130px;
 }
 .invertButton{
   border-radius: 5px;
   margin-bottom: 20px;
   font-family: Duo;
-  float:right;
+  float: right;
 }
 .bigRow{
   margin-top: -60px;
