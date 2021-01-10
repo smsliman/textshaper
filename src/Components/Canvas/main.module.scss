@@ -34,6 +34,12 @@
   font-family: 'Arial';
   font-size: 12px;
 }
+.circleButton{
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  filter: drop-shadow(0 0 0.75rem white);
+}
 .invert{
 }
 .invertText{

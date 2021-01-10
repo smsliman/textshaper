@@ -22,6 +22,8 @@ function Canvas() {
   }
 
   const drawDots = (stringified, outputTest) => {
+
+      outputTest = outputTest.replace(/\n/g, "").replace(/ /g, "")
       // var mainCanvas = document.getElementById('canvas');
       // var ctx = mainCanvas.getContext("2d")
       console.log(JSON.parse(stringified)["lines"][0]["points"])
@@ -180,6 +182,12 @@ function Canvas() {
       <Col className={styles.colCenter}>
       < CanvasDraw className = {styles.mainCanvas} style={{border:"1px solid #000000"}} canvasWidth={canvasSize} canvasHeight={canvasSize} ref={canvasDraw => setSaveableCanvas(canvasDraw)}/>
       </Col>
+
+      {/* {!secondScreen &&
+        <Col className={styles.colCenter}>
+          <button className={styles.circleButton}></button>
+        </Col>
+      } */}
   
       {showOutput && secondScreen &&
       <Col className={styles.colCenter}>
