@@ -13,6 +13,7 @@
   border: 1px solid #000000;
   margin-top: 100px;
   border-radius: 20px;
+  animation: fadeInUp 2s;
 }
 .output{
   margin-top: 100px;
@@ -43,12 +44,44 @@
 }
 .circleButton{
   border-radius: 50%;
+  border: 1px solid black;
   width: 70px;
   height: 70px;
   filter: drop-shadow(0 0 0.75rem white);
-  position: relative;
-  top: 10px;
-  right: 130px;
+  animation: fadeInUp 2s, bounce2 1.6s infinite;
+}
+@keyframes bounce2 {
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes bounce {
+  0% {
+transform: scale(1,1) translate(0px, 0px);
+}
+
+30%{
+transform: scale(1,0.8) translate(0px, 10px); 
+}
+
+75%{
+transform: scale(1,1.1) translate(0px, -25px); 
+}
+
+100% {
+transform: scale(1,1) translate(0px, 0px);
+}
+}
+
+@keyframes fadeInUp {
+  from {
+      transform: translate3d(0,80px,0);
+      opacity: 0;
+  }
+
+  to {
+      transform: translate3d(0,0,0);
+      opacity: 1
+  }
 }
 .invertButton{
   border-radius: 5px;
@@ -65,13 +98,15 @@
 }
 .header{
 margin-top: 20px;
-font-size: 40px;
+font-size: 50px;
 font-family: Duo;
+animation: fadeInUp 2s;
 }
 
 .subHeader{
-font-size: 25px;
+font-size: 30px;
 font-family: Duo;
+animation: fadeInUp 2s;
 }
 div {
     -webkit-transition: all 1.0s ease, margin 0.3s ease;

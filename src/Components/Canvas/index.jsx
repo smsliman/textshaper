@@ -227,14 +227,14 @@ function Canvas() {
         </Col>
       </Row>
       <Row className={styles.bigRow}>
-      <Col lg={secondScreen ? 0 : 3}>
+      <Col lg={secondScreen ? 1 : 3}>
       </Col>
       <Col className={styles.colCenter}>
       < CanvasDraw className = {styles.mainCanvas} style={{border:"1px solid #000000"}} canvasWidth={canvasSize} canvasHeight={canvasSize} ref={canvasDraw => setSaveableCanvas(canvasDraw)}/>
       </Col>
 
       
-        <Col className={styles.colCenter1} lg={secondScreen ? 6 : 3}>
+        <Col className={styles.colCenter1} lg={secondScreen ? 5 : 1}>
         {!secondScreen &&
           <button className={styles.circleButton} onClick={() => handleSecondScreen()}><img src={arrow}></img></button>
         }
@@ -250,37 +250,16 @@ function Canvas() {
           <textarea className={styles.inputField} onChange = {(e) => handleInput(e)}></textarea>
         }
         </Col>
-
-      {/* 
-      <Col className={styles.colCenter}>
-        <textarea id="outputBox" className={styles.output} value={totalString}></textarea>
-      </Col> */}
+        <Col lg={secondScreen ? 1 : 2}>
+      </Col>
       {/* <canvas id="canvas" width={canvasSize} height={canvasSize} style={{border:"1px solid #000000"}}></canvas> <br /> */}
       {/* <div className={styles.testFont} id="outputBox">{totalString.split("\n").map((i,key) => {
             return <div className={styles.display} key={key}>{i}</div>;
       })}</div> */}
     </Row>
-    {/* <Row>
-      <Col className={styles.colCenter}>
-      <Button className={styles.submitButton}onClick={() => saveImage()}>Save</Button> <br />
-      </Col>
-    </Row> */}
+  
     
-    {/* <Row>
-      <Col className={styles.colCenter}>
-      <input className={styles.invert} type="checkbox" onChange = {(e) => handleInvert(e)}></input> <br />
-      <ButtonGroup toggle>
-        <ToggleButton
-          type="checkbox"
-          variant="secondary"
-          checked={invert}
-          onChange={(e) => setInvert(!invert)}
-        >
-          Invert?
-        </ToggleButton>
-      </ButtonGroup>
-      </Col>
-    </Row> */}
+  
     </Container>
 
   );
