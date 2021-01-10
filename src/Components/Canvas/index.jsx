@@ -28,7 +28,7 @@ function Canvas() {
 
   const drawDots = (stringified, outputTest) => {
 
-      outputTest = outputTest.replace(/\n/g, "").replace(/([ ]{3,})/g, "")
+      outputTest = outputTest.replace(/([ ]{3,})|([\n])+/g, "")
       // var mainCanvas = document.getElementById('canvas');
       // var ctx = mainCanvas.getContext("2d")
       console.log(JSON.parse(stringified)["lines"][0]["points"])
@@ -207,7 +207,7 @@ function Canvas() {
           }
           {secondScreen &&
           <div className={styles.header}>
-          Now, enter your text in the box on the right
+          Now, paste your text in the box on the right
           </div>
           }
         </Col>
